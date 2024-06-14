@@ -12,8 +12,6 @@ tasks {
 	}
 }
 
-version = "1.5.13"
-
 loom {
 	accessWidenerPath = projectDir.toPath().resolve("src").resolve("main").resolve("resources").resolve("fabric-renderer-indigo.accesswidener").toFile()
 }
