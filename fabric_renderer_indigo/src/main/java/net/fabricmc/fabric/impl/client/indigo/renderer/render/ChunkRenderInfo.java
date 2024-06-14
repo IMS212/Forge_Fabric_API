@@ -16,6 +16,7 @@
 
 package net.fabricmc.fabric.impl.client.indigo.renderer.render;
 
+import java.util.Map;
 import java.util.Set;
 
 import it.unimi.dsi.fastutil.longs.Long2FloatOpenHashMap;
@@ -25,10 +26,13 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.render.BufferBuilder;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.VertexFormat;
+import net.minecraft.client.render.VertexFormats;
 import net.minecraft.client.render.WorldRenderer;
-import net.minecraft.client.render.chunk.BlockBufferBuilderStorage;
+import net.minecraft.client.render.chunk.BlockBufferAllocatorStorage;
 import net.minecraft.client.render.chunk.ChunkBuilder.BuiltChunk;
 import net.minecraft.client.render.chunk.ChunkRendererRegion;
+import net.minecraft.client.util.BufferAllocator;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockRenderView;
 
@@ -69,13 +73,10 @@ public class ChunkRenderInfo {
 	private final Long2FloatOpenHashMap aoLevelCache;
 
 	private final BlockPos.Mutable chunkOrigin = new BlockPos.Mutable();
-	BuiltChunk.RebuildTask.RenderData renderData;
-	BuiltChunk chunkRenderer;
-	BlockBufferBuilderStorage builders;
-	Set<RenderLayer> initializedLayers;
+	BlockBufferAllocatorStorage builders;
+	Map<RenderLayer, BufferBuilder> buffers;
 	BlockRenderView blockView;
 
-	private final Object2ObjectOpenHashMap<RenderLayer, BufferBuilder> buffers = new Object2ObjectOpenHashMap<>();
 
 	ChunkRenderInfo() {
 		brightnessCache = new Long2IntOpenHashMap();
@@ -84,22 +85,16 @@ public class ChunkRenderInfo {
 		aoLevelCache.defaultReturnValue(Float.MAX_VALUE);
 	}
 
-	void prepare(ChunkRendererRegion blockView, BuiltChunk chunkRenderer, BuiltChunk.RebuildTask.RenderData renderData, BlockBufferBuilderStorage builders, Set<RenderLayer> initializedLayers) {
+	void prepare(ChunkRendererRegion blockView, BlockPos chunkOrigin, BlockBufferAllocatorStorage builders, Map<RenderLayer, BufferBuilder> buffers) {
 		this.blockView = blockView;
-		this.chunkOrigin.set(chunkRenderer.getOrigin());
-		this.renderData = renderData;
-		this.chunkRenderer = chunkRenderer;
+		this.chunkOrigin.set(chunkOrigin);
 		this.builders = builders;
-		this.initializedLayers = initializedLayers;
-		buffers.clear();
+		this.buffers = buffers;
 		brightnessCache.clear();
 		aoLevelCache.clear();
 	}
 
 	void release() {
-		renderData = null;
-		chunkRenderer = null;
-		buffers.clear();
 	}
 
 	/** Lazily retrieves output buffer for given layer, initializing as needed. */
@@ -107,11 +102,10 @@ public class ChunkRenderInfo {
 		BufferBuilder builder = buffers.get(renderLayer);
 
 		if (builder == null) {
-			builder = builders.get(renderLayer);
+			BufferAllocator allocator = builders.get(renderLayer);
 
-			if (initializedLayers.add(renderLayer)) {
-				chunkRenderer.beginBufferBuilding(builder);
-			}
+			builder = new BufferBuilder(allocator, VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR_TEXTURE_LIGHT_NORMAL);
+
 
 			buffers.put(renderLayer, builder);
 		}
