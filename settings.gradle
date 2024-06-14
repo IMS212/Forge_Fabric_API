@@ -1,0 +1,16 @@
+pluginManagement {
+    repositories {
+        maven { url "https://maven.fabricmc.net/" }
+        maven { url "https://maven.architectury.dev/" }
+        maven { url "https://files.minecraftforge.net/maven/" }
+        gradlePluginPortal()
+    }
+}
+
+rootProject.name = 'fabric_api'
+
+include("fabric_api_base")
+include("fabric_block_view_api_v2")
+include("fabric_renderer_api_v1")
+include("fabric_renderer_indigo")
+include("fabric_rendering_data_attachment_v1")

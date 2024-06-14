@@ -1,0 +1,8 @@
+
+dependencies {
+    implementation(project(path: ":fabric_api_base", configuration: "namedElements")) {
+
+    }
+}
+
+version = "3.2.12"

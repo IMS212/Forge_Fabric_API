@@ -1,0 +1,17 @@
+modLoader = "javafml"
+loaderVersion = "[2,)"
+#issueTrackerURL = ""
+license = "Apache v2"
+
+[[mods]]
+modId = "fabric_rendering_data_attachment_v1"
+version = "${version}"
+displayName = "Fabric Data Attachment API"
+authors = "FabricMC"
+description = '''
+This is a port of Fabric's data attachment API for use in Sodium.
+'''
+#logoFile = ""
+
+[[mixins]]
+config = "fabric-rendering-data-attachment-v1.mixins.json"

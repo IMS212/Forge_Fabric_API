@@ -1,0 +1,20 @@
+modLoader = "javafml"
+loaderVersion = "[2,)"
+#issueTrackerURL = ""
+license = "Apache v2"
+
+[[mods]]
+modId = "fabric_renderer_api_v1"
+version = "${version}"
+displayName = "Fabric Rendering API"
+authors = "FabricMC"
+description = '''
+This is a port of FRAPI for use in Sodium.
+'''
+#logoFile = ""
+
+[[mixins]]
+config = "fabric-renderer-api-v1.debughud.mixins.json"
+
+[[mixins]]
+config = "fabric-renderer-api-v1.mixins.json"

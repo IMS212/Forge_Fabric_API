@@ -1,0 +1,14 @@
+modLoader = "javafml"
+loaderVersion = "[2,)"
+#issueTrackerURL = ""
+license = "Apache v2"
+
+[[mods]]
+modId = "fabric_block_view_api_v2"
+version = "${version}"
+displayName = "Fabric Block View API v2"
+authors = "FabricMC"
+description = '''
+This is a port of Fabric's Block View API for use in Sodium.
+'''
+#logoFile = ""

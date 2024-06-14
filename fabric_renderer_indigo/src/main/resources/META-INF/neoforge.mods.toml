@@ -1,0 +1,17 @@
+modLoader = "javafml"
+loaderVersion = "[2,)"
+#issueTrackerURL = ""
+license = "Apache v2"
+
+[[mods]]
+modId = "fabric_renderer_indigo"
+version = "${version}"
+displayName = "Indigo Renderer"
+authors = "FabricMC"
+description = '''
+This is a port of Fabric's Indigo Renderer for use in Sodium.
+'''
+#logoFile = ""
+
+[[mixins]]
+config = "fabric-renderer-indigo.mixins.json"

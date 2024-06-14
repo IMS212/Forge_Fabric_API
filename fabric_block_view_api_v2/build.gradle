@@ -1,0 +1,5 @@
+version = "1.0.8"
+
+loom {
+	accessWidenerPath = file("src/main/resources/fabric-block-view-api-v2.accesswidener")
+}

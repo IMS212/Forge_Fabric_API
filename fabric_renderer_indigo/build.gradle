@@ -1,0 +1,19 @@
+
+dependencies {
+	implementation(project(path: ":fabric_api_base", configuration: 'namedElements')) {
+
+	}
+	implementation(project(path: ":fabric_renderer_api_v1", configuration: 'namedElements'))
+}
+
+tasks {
+	remapJar {
+		atAccessWideners.add("fabric-renderer-indigo.accesswidener")
+	}
+}
+
+version = "1.5.13"
+
+loom {
+	accessWidenerPath = projectDir.toPath().resolve("src").resolve("main").resolve("resources").resolve("fabric-renderer-indigo.accesswidener").toFile()
+}
