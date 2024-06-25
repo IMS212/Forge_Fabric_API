@@ -18,6 +18,7 @@ package net.fabricmc.fabric.api.renderer.v1.mesh;
 
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector2f;
+import org.joml.Vector2fc;
 import org.joml.Vector3f;
 
 import net.minecraft.client.render.model.BakedQuad;
@@ -28,6 +29,8 @@ import net.minecraft.util.math.Vec2f;
 import net.fabricmc.fabric.api.renderer.v1.Renderer;
 import net.fabricmc.fabric.api.renderer.v1.material.MaterialFinder;
 import net.fabricmc.fabric.api.renderer.v1.material.RenderMaterial;
+
+import org.joml.Vector3fc;
 
 /**
  * A mutable {@link QuadView} instance. The base interface for
@@ -111,6 +114,13 @@ public interface MutableQuadView extends QuadView {
 	 * Same as {@link #pos(int, float, float, float)} but accepts vector type.
 	 */
 	default MutableQuadView pos(int vertexIndex, Vector3f pos) {
+		return pos(vertexIndex, pos.x, pos.y, pos.z);
+	}
+
+	/**
+	 * Same as {@link #pos(int, float, float, float)} but accepts vector type.
+	 */
+	default MutableQuadView pos(int vertexIndex, Vector3fc pos) {
 		return pos(vertexIndex, pos.x(), pos.y(), pos.z());
 	}
 
@@ -143,6 +153,16 @@ public interface MutableQuadView extends QuadView {
 	 */
 	default MutableQuadView uv(int vertexIndex, Vector2f uv) {
 		return uv(vertexIndex, uv.x, uv.y);
+	}
+
+	/**
+	 * Set texture coordinates.
+	 *
+	 * <p>Only use this function if you already have a {@link Vector2fc}.
+	 * Otherwise, see {@link MutableQuadView#uv(int, float, float)}.
+	 */
+	default MutableQuadView uv(int vertexIndex, Vector2fc uv) {
+		return uv(vertexIndex, uv.x(), uv.y());
 	}
 
 	/**
@@ -190,6 +210,13 @@ public interface MutableQuadView extends QuadView {
 	 * Same as {@link #normal(int, float, float, float)} but accepts vector type.
 	 */
 	default MutableQuadView normal(int vertexIndex, Vector3f normal) {
+		return normal(vertexIndex, normal.x, normal.y, normal.z);
+	}
+
+	/**
+	 * Same as {@link #normal(int, float, float, float)} but accepts vector type.
+	 */
+	default MutableQuadView normal(int vertexIndex, Vector3fc normal) {
 		return normal(vertexIndex, normal.x(), normal.y(), normal.z());
 	}
 
